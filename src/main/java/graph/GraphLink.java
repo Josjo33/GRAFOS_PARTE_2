@@ -3,21 +3,19 @@ package graph;
 import java.util.*;
 
 public class GraphLink<V> {
-
     private List<Vertex<V>> vertices;
 
     public GraphLink() {
         this.vertices = new ArrayList<>();
     }
 
-    // --- Ejercicio 5: Insertar un vértice ---
+    // Métodos que se implementan para el ejercicio 5 (grados, tipos de grafo)
     public void insertVertex(V data) {
         if (searchVertex(data) == null) {
             vertices.add(new Vertex<>(data));
         }
     }
 
-    // --- Ejercicio 5: Insertar una arista ---
     public void insertEdge(V data1, V data2) {
         Vertex<V> v1 = searchVertex(data1);
         Vertex<V> v2 = searchVertex(data2);
@@ -26,7 +24,6 @@ public class GraphLink<V> {
         }
     }
 
-    // --- Ejercicio 5: Buscar un vértice ---
     public Vertex<V> searchVertex(V data) {
         for (Vertex<V> vertex : vertices) {
             if (vertex.getData().equals(data)) {
@@ -36,7 +33,14 @@ public class GraphLink<V> {
         return null;
     }
 
-    // --- Ejercicio 5: Identificar el tipo de grafo - Camino (Px) ---
+    // --- Ejercicio 5: Métodos para identificar tipos de grafo ---
+    // Grado de un nodo
+    public int getDegree(V data) {
+        Vertex<V> vertex = searchVertex(data);
+        return vertex != null ? vertex.getAdjacencyList().size() : 0;
+    }
+
+    // Camino (Px)
     public boolean isPath() {
         int count = 0;
         for (Vertex<V> vertex : vertices) {
@@ -44,10 +48,10 @@ public class GraphLink<V> {
                 count++;
             }
         }
-        return count == 2;
+        return count == 2;  // Camino tiene 2 nodos con grado 1
     }
 
-    // --- Ejercicio 5: Identificar el tipo de grafo - Ciclo (Cx) ---
+    // Ciclo (Cx)
     public boolean isCycle() {
         int count = 0;
         for (Vertex<V> vertex : vertices) {
@@ -55,10 +59,10 @@ public class GraphLink<V> {
                 count++;
             }
         }
-        return count == vertices.size();
+        return count == vertices.size();  // Un ciclo tiene todos los vértices con grado 2
     }
 
-    // --- Ejercicio 5: Identificar el tipo de grafo - Rueda (Wx) ---
+    // Rueda (Wx)
     public boolean isWheel() {
         int countCycle = 0;
         int countCenter = 0;
@@ -69,10 +73,10 @@ public class GraphLink<V> {
                 countCycle++;
             }
         }
-        return countCycle == vertices.size() - 1 && countCenter == 1;
+        return countCycle == vertices.size() - 1 && countCenter == 1;  // Una rueda tiene 1 nodo central y un ciclo
     }
 
-    // --- Ejercicio 5: Identificar el tipo de grafo - Completo (Kx) ---
+    // Completo (Kx)
     public boolean isComplete() {
         int totalEdges = vertices.size() * (vertices.size() - 1) / 2;
         int edgeCount = 0;
@@ -82,13 +86,7 @@ public class GraphLink<V> {
         return edgeCount / 2 == totalEdges;
     }
 
-    // --- Ejercicio 6: Grado de un nodo (Gx) ---
-    public int getDegree(V data) {
-        Vertex<V> vertex = searchVertex(data);
-        return vertex != null ? vertex.getAdjacencyList().size() : 0;
-    }
-
-    // --- Ejercicio 6: Representación Formal ---
+    // Métodos para representación
     public void printFormalRepresentation() {
         for (Vertex<V> vertex : vertices) {
             System.out.print("Vértice: " + vertex.getData() + " - Conectado a: ");
@@ -99,7 +97,6 @@ public class GraphLink<V> {
         }
     }
 
-    // --- Ejercicio 6: Lista de Adyacencia ---
     public void printAdjacencyList() {
         for (Vertex<V> vertex : vertices) {
             System.out.print(vertex.getData() + ": ");
@@ -110,7 +107,6 @@ public class GraphLink<V> {
         }
     }
 
-    // --- Ejercicio 6: Matriz de Adyacencia ---
     public void printAdjacencyMatrix() {
         int size = vertices.size();
         int[][] matrix = new int[size][size];
